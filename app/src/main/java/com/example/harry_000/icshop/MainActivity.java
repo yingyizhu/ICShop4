@@ -31,13 +31,13 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    /*all store button, imageButton2*/
+    /*all brand button, imageButton2*/
     private void configureImageButton1() {
         ImageButton btn = (ImageButton) findViewById(R.id.imageButton2);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, categorySearchActivity.class);
+                Intent intent = new Intent(MainActivity.this, BrandListActivity.class);
                 startActivity(intent);
             }
         });
