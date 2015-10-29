@@ -32,6 +32,10 @@
             android:name=".StoreDetailActivity"
             android:label="@string/title_activity_store_detail" >
         </activity>
+        <activity
+            android:name=".StoresListAdapter"
+            android:label="@string/title_activity_stores_list_adapter" >
+        </activity>
     </application>
 
 </manifest>

@@ -5,13 +5,69 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class BrandStoresActivity extends AppCompatActivity {
+import android.content.Intent;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.TextView;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_brand_stores);
-    }
+
+import java.util.ArrayList;
+import java.util.List;
+
+    public class BrandStoresActivity extends AppCompatActivity {
+        private List<Store> Stores = new ArrayList<Store>();
+        private MyDatabase db;
+
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_brand_stores);
+
+            Intent i= getIntent();
+            String id = i.getStringExtra("brandID");
+            String strBrand = i.getStringExtra("brandName");
+
+            //Toast.makeText(getApplicationContext(), id,
+            //    Toast.LENGTH_LONG).show();
+
+
+            db = new MyDatabase(this);
+            Stores = db.getStoresByBrand(id); // you would not typically call this on the main thread
+
+            StoresListAdapter Adapter = new StoresListAdapter(this, Stores);
+
+            ListView listView = (ListView) findViewById(android.R.id.list);
+            listView.setAdapter(Adapter);
+
+            TextView Brand = (TextView) this.findViewById(R.id.headertext);
+            Brand.setText("Stores for:" + strBrand);
+
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                public void onItemClick(AdapterView<?> parent, View view,
+                                        int position, long id) {
+
+                    // selected item
+                    Store clickedObject = (Store) parent.getAdapter().getItem(position);
+
+                    String strId = String.valueOf(clickedObject.getID());
+                    // Launching new Activity on selecting single List Item
+                    Intent i = new Intent(getApplicationContext(), StoreDetailActivity.class);
+                    // sending data to new activity
+                    i.putExtra("storeID", strId);
+                    startActivity(i);
+
+                }
+            });
+
+
+        }
+
+        @Override
+        protected void onDestroy() {
+            super.onDestroy();
+            db.close();
+        }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

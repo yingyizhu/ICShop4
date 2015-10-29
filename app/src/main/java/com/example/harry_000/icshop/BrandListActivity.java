@@ -20,7 +20,7 @@ public class BrandListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(android.R.layout.activity_list_item);
+        setContentView(R.layout.activity_brand_list);
 
         db = new MyDatabase(this);
         Brands = db.getAllBrands(); // you would not typically call this on the main thread
